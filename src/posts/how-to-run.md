@@ -1,6 +1,7 @@
 ---
 title: 'How to run'
 date: '2024-08-20'
+published: true
 ---
 
 # How to run this?
