@@ -1,15 +1,52 @@
 import { Button } from '@/components/ui/button';
-import Link from 'next/link';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { getSortedPosts } from '@/lib/post';
+import { Link } from 'lucide-react';
 
 export default function Home() {
-  return (
-    <div>
-      <h1 className="text-4xl font-bold">Next Blog</h1>
-      <p className="text-gray-400 text-lg">A blog built with Next.js and Tailwind CSS (shadcn)</p>
+  const posts = getSortedPosts();
 
-      <Button variant="secondary">
-        <Link href="/blog">Go to blog</Link>
-      </Button>
-    </div>
+  return (
+    <main className="flex-1">
+      <section className="bg-primary py-12 md:py-24 lg:py-32">
+        <div className="container mx-auto px-4 md:px-6 text-center">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-4">Discover the best blog</h1>
+          <p className="text-lg md:text-xl text-primary-foreground mb-8">
+            This is a blog where you can find the best articles about web development, programming, and more.
+          </p>
+          <Button variant="secondary">Explore the Blog</Button>
+        </div>
+      </section>
+
+      <section className="py-12 md:py-24 lg:py-32">
+        <div className="container mx-auto px-4 md:px-6">
+          <h2 className="text-3xl md:text-4xl font-bold mb-8">Featured Posts</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {posts
+              .filter((post) => post.published && post.isFeatured)
+              .map((post) => {
+                return (
+                  <Card key={post.id}>
+                    <CardHeader>
+                      <CardTitle>{post.title}</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <p>{post.plot}</p>
+
+                      <p className="text-sm text-gray-500 mt-4">Published on {new Date(post.date).toDateString()}</p>
+                    </CardContent>
+                    {post.image && <img src={post.image} alt={post.title} className="w-full h-48 p-3 object-cover" />}
+                    <CardFooter>
+                      <Button>
+                        <Link href={`/blog/${post.id}`}>Read Post</Link>
+                      </Button>
+                    </CardFooter>
+                  </Card>
+                );
+              })}
+          </div>
+        </div>
+      </section>
+    </main>
   );
 }

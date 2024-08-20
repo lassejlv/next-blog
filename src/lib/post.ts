@@ -7,10 +7,12 @@ import html from 'remark-html';
 type PostData = {
   id: string;
   title: string;
+  plot: string;
   slug: string;
   date: string;
   image?: string;
   published?: boolean;
+  isFeatured?: boolean;
 };
 
 type Response = {
@@ -55,6 +57,8 @@ export async function getPost(slug: string): Promise<Response | null> {
   // Use remark to convert markdown into HTML string
   const processedContent = await remark().use(html).process(matterResult.content);
   const contentHtml = processedContent.toString();
+
+  await new Promise((resolve) => setTimeout(resolve, 400));
 
   // Combine the data with the id and contentHtml
   return {
