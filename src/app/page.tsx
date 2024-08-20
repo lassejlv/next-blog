@@ -35,7 +35,7 @@ export default function Home() {
 
                       <p className="text-sm text-gray-500 mt-4">Published on {new Date(post.date).toDateString()}</p>
                     </CardContent>
-                    {post.image && <img src={post.image} alt={post.title} className="w-full h-48 p-3 object-cover" />}
+                    {/* {post.image && <img src={post.image} alt={post.title} className="w-full h-48 p-3 object-cover" />} */}
                     <CardFooter>
                       <Button>
                         <Link href={`/blog/${post.id}`}>Read Post</Link>
