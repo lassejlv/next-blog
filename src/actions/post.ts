@@ -36,6 +36,33 @@ export const createPost = async (data: any): Promise<ActionResponse> => {
   }
 };
 
+export const updatePost = async (id: number, data: any): Promise<ActionResponse> => {
+  try {
+    if (!id) throw new Error('id is required');
+    if (isNaN(id)) throw new Error('id must be a number');
+
+    const validatedData = schema.parse(data);
+
+    const post = await db.query.postsTable.findFirst({ where: eq(postsTable.id, id) });
+    if (!post) throw new Error('post not found');
+
+    await db
+      .update(postsTable)
+      .set({
+        title: validatedData.title,
+        plot: validatedData.plot,
+        content: validatedData.content,
+        image: validatedData.image,
+        isFeatured: validatedData.isFeatured === 'on' ? true : false,
+      })
+      .where(eq(postsTable.id, id));
+
+    return { error: false, message: 'post updated' };
+  } catch (error: any) {
+    return { error: true, message: error.message };
+  }
+};
+
 export const delPost = async (id: number): Promise<ActionResponse> => {
   try {
     if (!id) throw new Error('id is required');

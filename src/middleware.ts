@@ -1,12 +1,33 @@
+import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
+import { db } from './db';
+import { eq } from 'drizzle-orm';
+import { adminSessionsTable } from './db/schema';
 
 const adminPassword = process.env.ADMIN_PASSWORD;
 const adminUsername = process.env.ADMIN_USERNAME;
 
 export const middleware = async (req: NextRequest) => {
-  // add basic auth
-  if (req.headers.get('authorization') !== `Basic ${btoa(`${adminUsername}:${adminPassword}`)}`) {
-    return new Response('Unauthorized', { status: 401, headers: { 'WWW-Authenticate': 'Basic' } });
+  const url = new URL(req.url);
+  const redirectTo = new URL('/admin/login', url.origin);
+
+  // make sure we dont redirect to login page infinitely lol
+  if (url.pathname === '/admin/login') {
+    return NextResponse.next();
+  }
+
+  const hasCookie = cookies().get('session');
+
+  if (!hasCookie) return NextResponse.redirect(redirectTo.href);
+
+  const validSession = await db.query.adminSessionsTable.findFirst({
+    where: eq(adminSessionsTable.token, hasCookie.value),
+  });
+
+  // if session is invalid or expired, redirect to login page
+  const now = Date.now();
+  if (!validSession || validSession.expiresAt < now) {
+    return NextResponse.redirect(redirectTo.href);
   }
 
   return NextResponse.next();

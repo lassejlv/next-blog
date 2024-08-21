@@ -18,7 +18,7 @@ export default async function page() {
         {posts.map((post) => (
           <li key={post.id}>
             <h2>{post.title}</h2>
-            <PostButtonActions postId={post.id} />
+            <PostButtonActions post={post} />
           </li>
         ))}
       </ul>
