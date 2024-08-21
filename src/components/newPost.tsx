@@ -11,9 +11,11 @@ import { Switch } from './ui/switch';
 import Spinner from './spinner';
 import { createPost } from '@/actions/post';
 import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 
 export default function NewPost() {
   const [loading, setLoading] = useState<boolean>(false);
+  const router = useRouter();
 
   const submit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -26,6 +28,7 @@ export default function NewPost() {
     const response = await createPost(data);
 
     setLoading(false);
+    router.refresh();
 
     if (response.error) return toast.error(response.message);
 

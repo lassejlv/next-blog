@@ -44,6 +44,11 @@ export function getSortedPosts() {
   return allPostsData as PostData[];
 }
 
+export const renderMarkdown = async (content: string): Promise<string> => {
+  const processedContent = await remark().use(html).process(content);
+  return processedContent.toString();
+};
+
 export async function getPost(slug: string): Promise<Response | null> {
   const fullPath = path.join(postsDirectory, `${slug}.md`);
 

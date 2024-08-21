@@ -1,11 +1,14 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { db } from '@/db';
 import { getSortedPosts } from '@/lib/post';
 import Link from 'next/link';
 import React from 'react';
 
+export const revalidate = 0;
+
 export default async function page() {
-  const posts = getSortedPosts();
+  const posts = await db.query.postsTable.findMany();
 
   return (
     <div>
@@ -26,7 +29,7 @@ export default async function page() {
 
                   <p className="text-sm text-gray-500 mt-4">Published on {new Date(post.date).toDateString()}</p>
                 </CardContent>
-                {post.image && <img src={post.image} alt={post.title} className="w-full h-48 p-3 object-cover" />}
+                {post.image && <img loading="lazy" src={post.image} alt={post.title} className="w-full h-48 p-3 object-cover" />}
                 <CardFooter>
                   <Button>
                     <Link href={`/blog/${post.id}`}>Read Post</Link>

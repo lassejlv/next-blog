@@ -1,12 +1,12 @@
 import NewPost from '@/components/newPost';
-import { Button } from '@/components/ui/button';
+import PostButtonActions from '@/components/postButtonActions';
 import { db } from '@/db';
 import React from 'react';
 
+export const revalidate = 0;
+
 export default async function page() {
   const posts = await db.query.postsTable.findMany();
-
-  console.log(posts);
 
   return (
     <div>
@@ -18,8 +18,7 @@ export default async function page() {
         {posts.map((post) => (
           <li key={post.id}>
             <h2>{post.title}</h2>
-            <Button variant="destructive">Delete</Button>
-            <Button variant="outline">Edit</Button>
+            <PostButtonActions postId={post.id} />
           </li>
         ))}
       </ul>

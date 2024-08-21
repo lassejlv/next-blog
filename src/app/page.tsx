@@ -1,10 +1,16 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { getSortedPosts } from '@/lib/post';
-import { Link } from 'lucide-react';
+import { db } from '@/db';
+import { postsTable } from '@/db/schema';
+import { and, eq } from 'drizzle-orm';
+import Link from 'next/link';
 
-export default function Home() {
-  const posts = getSortedPosts();
+export const revalidate = 0;
+
+export default async function Home() {
+  const posts = await db.query.postsTable.findMany({
+    where: and(eq(postsTable.published, true), eq(postsTable.isFeatured, true)),
+  });
 
   return (
     <main className="flex-1">
@@ -23,7 +29,7 @@ export default function Home() {
           <h2 className="text-3xl md:text-4xl font-bold mb-8">Featured Posts</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {posts
-              .filter((post) => post.published && post.isFeatured)
+              .filter((post) => post.published)
               .map((post) => {
                 return (
                   <Card key={post.id}>
@@ -35,7 +41,7 @@ export default function Home() {
 
                       <p className="text-sm text-gray-500 mt-4">Published on {new Date(post.date).toDateString()}</p>
                     </CardContent>
-                    {/* {post.image && <img src={post.image} alt={post.title} className="w-full h-48 p-3 object-cover" />} */}
+                    {post.image && <img loading="lazy" src={post.image} alt={post.title} className="w-full h-48 p-3 object-cover" />}
                     <CardFooter>
                       <Button>
                         <Link href={`/blog/${post.id}`}>Read Post</Link>
