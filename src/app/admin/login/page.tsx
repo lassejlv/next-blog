@@ -22,7 +22,7 @@ export default function login() {
       return Response.json({ error: 'invalid username or password' }, { status: 401 });
 
     const session = await db.insert(adminSessionsTable).values({}).returning();
-    cookies().set('session', session[0].token, { httpOnly: true, secure: true, path: '/admin', sameSite: 'strict', maxAge: 60 * 60 * 24 });
+    cookies().set('session', session[0].token, { httpOnly: true, secure: true, path: '/', sameSite: 'strict', maxAge: 60 * 60 * 24 });
     console.log(session);
     return redirect('/admin');
   };

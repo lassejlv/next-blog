@@ -4,9 +4,6 @@ import { db } from './db';
 import { eq } from 'drizzle-orm';
 import { adminSessionsTable } from './db/schema';
 
-const adminPassword = process.env.ADMIN_PASSWORD;
-const adminUsername = process.env.ADMIN_USERNAME;
-
 export const middleware = async (req: NextRequest) => {
   const url = new URL(req.url);
   const redirectTo = new URL('/admin/login', url.origin);

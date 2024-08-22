@@ -1,7 +1,12 @@
+'use client';
+
 import Link from 'next/link';
 import React from 'react';
+import useFetch from 'react-fetch-hook';
 
 export default function Navbar() {
+  const { data } = useFetch('/api/session') as { data: React.ReactNode };
+
   const navItems = [
     {
       label: 'Home',
@@ -19,9 +24,18 @@ export default function Navbar() {
       <ul className="flex space-x-4">
         {navItems.map((item) => (
           <li key={item.path}>
-            <Link href={item.path}>{item.label}</Link>
+            <Link href={item.path} className="hover:underline">
+              {item.label}
+            </Link>
           </li>
         ))}
+        {data && (
+          <li>
+            <Link href="/admin" className="hover:underline">
+              Go to Admin
+            </Link>
+          </li>
+        )}
       </ul>
     </nav>
   );

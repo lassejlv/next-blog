@@ -42,10 +42,12 @@ export default async function Home() {
                       <p className="text-sm text-gray-500 mt-4">Published on {new Date(post.date).toDateString()}</p>
                     </CardContent>
                     {post.image && <img loading="lazy" src={post.image} alt={post.title} className="w-full h-48 p-3 object-cover" />}
-                    <CardFooter>
+                    <CardFooter className="flex justify-between items-center">
                       <Button>
                         <Link href={`/blog/${post.id}`}>Read Post</Link>
                       </Button>
+
+                      <p className="text-sm text-gray-500 mt-4">Views: {post.views?.toLocaleString()}</p>
                     </CardFooter>
                   </Card>
                 );

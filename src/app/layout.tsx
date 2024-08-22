@@ -16,7 +16,8 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="en" className="">
       <body className={`${inter.className} container mx-auto py-12`}>
         <Navbar />
-        <Toaster />
+        <Toaster richColors />
+
         {children}
       </body>
     </html>

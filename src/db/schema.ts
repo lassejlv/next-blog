@@ -20,6 +20,7 @@ export const postsTable = sqliteTable('posts', {
   image: text('image'),
   published: integer('published', { mode: 'boolean' }).default(true),
   isFeatured: integer('isFeatured', { mode: 'boolean' }).default(false),
+  views: integer('views').default(0),
   createdAt: text('created_at')
     .notNull()
     .default(sql`(current_timestamp)`),
