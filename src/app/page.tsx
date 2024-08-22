@@ -14,7 +14,7 @@ export default async function Home() {
 
   return (
     <main className="flex-1">
-      <section className="bg-primary py-12 md:py-24 lg:py-32">
+      <section className="py-12 md:py-24 lg:py-32 bg-[url('/bannerHeader.jpg')] bg-cover bg-center bg-no-repeat text-white">
         <div className="container mx-auto px-4 md:px-6 text-center">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-4">Discover the best blog</h1>
           <p className="text-lg md:text-xl text-primary-foreground mb-8">

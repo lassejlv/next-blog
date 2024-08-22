@@ -12,6 +12,7 @@ import { Textarea } from './ui/textarea';
 import { Switch } from './ui/switch';
 import Spinner from './spinner';
 import { SelectPost } from '@/db/schema';
+import { PencilIcon, TrashIcon } from 'lucide-react';
 
 export default function PostButtonActions({ post }: { post: SelectPost }) {
   const [loading, setLoading] = useState<boolean>(false);
@@ -58,13 +59,11 @@ export default function PostButtonActions({ post }: { post: SelectPost }) {
 
   return (
     <>
-      <Button variant="destructive" onClick={deletePost}>
-        Delete
-      </Button>
-
       <Dialog>
         <DialogTrigger asChild>
-          <Button variant="outline">Edit</Button>
+          <Button variant="outline">
+            <PencilIcon className="h-4 w-4 mr-1" /> Edit
+          </Button>
         </DialogTrigger>
         <DialogContent>
           <DialogHeader>
@@ -104,6 +103,10 @@ export default function PostButtonActions({ post }: { post: SelectPost }) {
           </DialogHeader>
         </DialogContent>
       </Dialog>
+
+      <Button variant="destructive" onClick={deletePost}>
+        <TrashIcon className="h-4 w-4 mr-1" /> Delete
+      </Button>
     </>
   );
 }
